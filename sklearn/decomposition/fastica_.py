@@ -39,7 +39,7 @@ def _gs_decorrelation(w, W, j):
     w -= np.dot(np.dot(w, W[:j].T), W[:j])
     return w
 
-
+@profile
 def _sym_decorrelation(W):
     """ Symmetric decorrelation
     i.e. W <- (W * W.T) ^{-1/2} * W
@@ -84,7 +84,7 @@ def _ica_def(X, tol, g, fun_args, max_iter, w_init):
 
     return W
 
-
+@profile
 def _ica_par(X, tol, g, fun_args, max_iter, w_init):
     """Parallel FastICA.
 
@@ -114,7 +114,7 @@ def _ica_par(X, tol, g, fun_args, max_iter, w_init):
 
 # Some standard non-linear functions.
 # XXX: these should be optimized, as they can be a bottleneck.
-
+@profile
 def _logcosh(x, fun_args=None):
     alpha = fun_args.get('alpha', 1.0)  # comment it out?
     gx = np.tanh(alpha * x)
@@ -135,7 +135,7 @@ def _exp(x, fun_args):
 def _cube(x, fun_args):
     return x ** 3, 3 * x ** 2
 
-
+@profile
 def fastica(X, n_components=None, algorithm="parallel", whiten=True,
             fun="logcosh", fun_args={}, max_iter=200, tol=1e-04, w_init=None,
             random_state=None, return_X_mean=False):
